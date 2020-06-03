@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hollysys.tn.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hollysys.tn.entity.User">
+        <result column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="email" property="email" />
+        <result column="name" property="name" />
+        <result column="nick_name" property="nickName" />
+        <result column="password" property="password" />
+        <result column="reg_time" property="regTime" />
+        <result column="version" property="version" />
+        <result column="create_user" property="createUser" />
+        <result column="create_date" property="createDate" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_date" property="updateDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,code, email, name, nick_name, password, reg_time, create_user, create_date, update_user, update_date
+    </sql>
+
+    <select id="find" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from User
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="id != null" >
+                AND id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="code != null" >
+                AND code = #{code,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null" >
+                AND email = #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null" >
+                AND name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="nickName != null" >
+                AND nick_name = #{nickName,jdbcType=VARCHAR}
+            </if>
+            <if test="password != null" >
+                AND password = #{password,jdbcType=VARCHAR}
+            </if>
+            <if test="regTime != null" >
+                AND reg_time = #{regTime,jdbcType=VARCHAR}
+            </if>
+            <if test="version != null" >
+                AND version = #{version,jdbcType=INTEGER}
+            </if>
+            <if test="createUser != null" >
+                AND create_user = #{createUser,jdbcType=VARCHAR}
+            </if>
+            <if test="createDate != null" >
+                AND create_date = #{createDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUser != null" >
+                AND update_user = #{updateUser,jdbcType=VARCHAR}
+            </if>
+            <if test="updateDate != null" >
+                AND update_date = #{updateDate,jdbcType=TIMESTAMP}
+            </if>
+        </trim>
+    </select>
+
+    <update id="update" parameterType="com.hollysys.tn.entity.User" >
+        update User set version = version + 1,
+        <trim suffixOverrides=",">
+            <if test="code != null" >
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null" >
+                nick_name = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null" >
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="regTime != null" >
+                reg_time = #{regTime,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null" >
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null" >
+                update_date = #{updateDate,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+        where id = #{id,jdbcType=INTEGER} and version = #{version,jdbcType=INTEGER}
+    </update>
+
+    <insert id="insert" parameterType="com.hollysys.tn.entity.User" >
+        <selectKey keyProperty="id" order="AFTER" resultType="INTEGER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into User (
+        id,
+        code,
+        email,
+        name,
+        nick_name,
+        password,
+        reg_time,
+        create_user,
+        create_date,
+        update_user,
+        update_date,
+        version
+        )
+        values (
+        #{id,jdbcType=INTEGER},
+        #{code,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{name,jdbcType=VARCHAR},
+        #{nickName,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{regTime,jdbcType=VARCHAR},
+        #{createUser,jdbcType=VARCHAR},
+        #{createDate,jdbcType=LONGVARCHAR},
+        #{updateUser,jdbcType=VARCHAR},
+        #{updateDate,jdbcType=LONGVARCHAR},
+        #{version,jdbcType=INTEGER}
+        )
+    </insert>
+
+</mapper>

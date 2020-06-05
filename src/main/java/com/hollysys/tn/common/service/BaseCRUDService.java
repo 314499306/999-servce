@@ -99,16 +99,11 @@ public class BaseCRUDService<M extends BaseMapper<T>, T extends AbstractEntity> 
 		entity.setUpdateUser("lushanyuan");
 		entity.setUpdateDate(new Date());
 		entity.setVersion(1);
-		int insertSuccess = getBasesMapper().insert(entity);
-//		try {
-//			int insertSuccess = getBasesMapper().insert(entity);
-//		} catch (DuplicateKeyException e) {
-//			throw new DaoException("DuplicateKeyException", new String[] { null,
-//					"insertAndReturnSid", ExceptionUtil.getExceptionStackTrace(e, ExceptionUtil.ExceptionLogLength) }, e);
-//		} catch (Exception e) {
-//			throw new DaoException("InsertDataException", new String[] { null,
-//					"insertAndReturnSid", ExceptionUtil.getExceptionStackTrace(e, ExceptionUtil.ExceptionLogLength) }, e);
-//		}
+		try {
+			getBasesMapper().insert(entity);
+		}catch (Exception e) {
+			logger.error("insertError", e);
+		}
 		return entity;
 	}
 

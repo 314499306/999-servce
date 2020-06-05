@@ -5,7 +5,6 @@ import com.hollysys.tn.common.service.BaseCRUDService;
 import com.hollysys.tn.entity.User;
 import com.hollysys.tn.mapper.UserMapper;
 import com.hollysys.tn.service.UserService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,28 +23,23 @@ public class UserServiceImpl extends BaseCRUDService<UserMapper, User> implement
     @Resource
     private UserMapper userMapper;
 
-    @Resource
-    private BCryptPasswordEncoder encoder;
-
     @Override
     public User login(String name, String password) throws Exception{
         QueryWrapper<User> wrapper = new QueryWrapper<User>();
         wrapper.eq("name", name);
         User userLogin = userMapper.selectOne(wrapper);
-        if (userLogin != null && encoder.matches(password, userLogin.getPassword())) {
-            return userLogin;
-        } else {
-            throw new Exception("用户名或密码错误");
-        }
+//        if (userLogin != null && encoder.matches(password, userLogin.getPassword())) {
+//            return userLogin;
+//        } else {
+//            throw new Exception("用户名或密码错误");
+//        }
+        return null;
     }
 
     @Override
-    public User userRegister(String name, String password) throws Exception {
-        User user = new User();
-        user.setName(name);
-        user.setPassword(encoder.encode(password));
-        int i = userMapper.insert(user);
-        if (i == 1){
+    public User userRegister(User user) throws Exception {
+        User result = this.insert(user);
+        if ( result != null ){
             return user;
         }else {
             throw new Exception("注册失败");

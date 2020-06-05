@@ -1,5 +1,8 @@
 server:
   port: 85
+  tomcat:
+    #配置Tomcat编码，默认为UTF-8
+    uri-encoding: UTF-8
 
 logging:
   level:

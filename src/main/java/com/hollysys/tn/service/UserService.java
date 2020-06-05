@@ -13,9 +13,9 @@ import com.hollysys.tn.entity.User;
  */
 public interface UserService extends BaseService<User> {
 
-    public User login( String name, String password ) throws Exception;
+    public User login( String code, String password ) throws Exception;
 
-    public User userRegister( String name, String password ) throws Exception;
+    public User userRegister( User user ) throws Exception;
 
     public boolean verifyUser( User user ) throws RuntimeException;
 }
